@@ -10,14 +10,14 @@ const scrapeBeyondChatsData = async () => {
         const scrapedArticles = [];
         //inspecting the page structure
         //we are looping through article cards
-        //i verified class names '.div-block-10' using inspect element in chrome
-        $('.div-block-10').each((index, element) => {
+        //i verified class names '.entry-card' using inspect element in chrome
+        $('.entry-card').each((index, element) => {
             //fetching only 5 articles as per requirement
             if (index < 5) {
-                const title = $(element).find('h5').text().trim();
-                const link = $(element).find('a').attr('href');
-                const date = $(element).find('.blog-date').text().trim();
-                const desc = $(element).find('.paragraph-2').text().trim();
+                const title = $(element).find('.entry-title a').text().trim();
+                const link = $(element).find('.entry-title a').attr('href');
+                const date = $(element).find('.ct-meta-element-date').text().trim();
+                const desc = $(element).find('.entry-excerpt').text().trim();
                 // validation to ensure empty data is not pushed
                 if (title && link) {
                     scrapedArticles.push({
