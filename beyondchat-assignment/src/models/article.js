@@ -12,13 +12,13 @@ const articleSchema = new mongoose.Schema(
     link: {
       type: String,
       required: true,
-      unique: true, // no duplicate articles
+      unique: true, //no duplicate articles
     },
     publishedDate: {
       type: String,
     },
     source: {
-      type: String, // to know if it's from 'beyondchats' or 'google'
+      type: String, //to know if it's from 'beyondchats' or 'google'
       default: "beyondchats",
     },
   },
