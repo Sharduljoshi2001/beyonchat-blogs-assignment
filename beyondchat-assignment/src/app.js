@@ -14,11 +14,13 @@ app.use(express.json());
 app.use(cors());
 //defining port from env or using 3000 as default
 const PORT = process.env.PORT || 3000;
-
 //simple route to check if server is working
+const articleRoutes = require('./routes/articleRoutes');
 app.get("/", (req, res) => {
   res.send("server is running perfectly");
 });
+// telling app to use article routes for any url starting with /api/articles
+app.use('/api/articles', articleRoutes);
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
 //   console.log(`TEST HEALTH: http://localhost:${PORT}/health`);
