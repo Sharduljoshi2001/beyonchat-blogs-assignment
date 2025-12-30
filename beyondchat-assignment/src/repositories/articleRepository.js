@@ -20,8 +20,27 @@ const getAllArticles = async () => {
 const findArticleByLink = async (link) => {
   return await Article.findOne({ link });
 };
+// function to update an article by its id
+const updateArticleContent = async (id, newContent) => {
+  try {
+    //finding by id and updating the description field
+    //also changing source to 'generative-ai'
+    const updatedArticle = await Article.findByIdAndUpdate(
+      id,
+      {
+        description: newContent,
+        source: "generative-ai",
+      },
+      { new: true }
+    );
+    return updatedArticle;
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   createManyArticles,
   getAllArticles,
   findArticleByLink,
+  updateArticleContent,
 };
