@@ -1,5 +1,5 @@
 const articleService = require("../services/articleService");
-//scraping aticles controller
+//scraping articles
 const scrapeArticles = async (req, res) => {
   try {
     const result = await articleService.triggerScrapingProcess();
@@ -8,7 +8,7 @@ const scrapeArticles = async (req, res) => {
     res.status(500).json({ error: "scraping failed" });
   }
 };
-//getting articles controller
+//getting all articles
 const getArticles = async (req, res) => {
   try {
     const data = await articleService.fetchAllArticles();
@@ -17,12 +17,23 @@ const getArticles = async (req, res) => {
     res.status(500).json({ error: "fetch failed" });
   }
 };
-//updation controller
+//creating a new article
+const createArticle = async (req, res) => {
+  try {
+    //script sends title, description, link, source='generative-ai'
+    const articleData = req.body; 
+    const newArticle = await articleService.createNewArticle(articleData);
+    res.status(201).json(newArticle);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to create new AI article" });
+  }
+};
+//updating an existing article
 const updateArticle = async (req, res) => {
   try {
     const { id } = req.params;
-    const { description } = req.body; //script will send this
-
+    const { description } = req.body;
     const updated = await articleService.updateArticleById(id, { description });
     res.status(200).json(updated);
   } catch (error) {
@@ -30,7 +41,7 @@ const updateArticle = async (req, res) => {
     res.status(500).json({ error: "update failed" });
   }
 };
-//clearing article data controller
+//clearing all data
 const clearData = async (req, res) => {
   try {
     await articleService.deleteAllArticles();
@@ -39,4 +50,10 @@ const clearData = async (req, res) => {
     res.status(500).json({ error: "failed to clear data" });
   }
 };
-module.exports = { scrapeArticles, getArticles, updateArticle, clearData };
+module.exports = { 
+  scrapeArticles, 
+  getArticles, 
+  createArticle,
+  updateArticle, 
+  clearData 
+};

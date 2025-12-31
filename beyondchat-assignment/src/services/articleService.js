@@ -1,5 +1,6 @@
 const articleRepository = require("../repositories/articleRepository");
 const scraperService = require("./scraperService");
+const Article = require("../models/article");
 //scraping logic
 const triggerScrapingProcess = async () => {
   try {
@@ -31,9 +32,14 @@ const updateArticleById = async (id, data) => {
 const deleteAllArticles = async () => {
     return await articleRepository.deleteAll(); 
 };
+const createNewArticle = async (data) => {
+  const article = new Article(data);
+  return await article.save();
+};
 module.exports = {
   triggerScrapingProcess,
   fetchAllArticles,
   updateArticleById,
-  deleteAllArticles
+  deleteAllArticles,
+  createNewArticle
 };

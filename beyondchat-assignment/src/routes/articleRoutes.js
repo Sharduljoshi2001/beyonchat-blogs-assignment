@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const articleController = require('../controllers/articleController');
-//defining routes and linking them to controller functions
+//triggering scraping route
 router.post('/scrape', articleController.scrapeArticles);
+//fetching all articles route
 router.get('/', articleController.getArticles);
-//put route for updating article
+//creating new ai scripted article route
+router.post('/', articleController.createArticle);
+//updating existing article route
 router.put('/:id', articleController.updateArticle);
-//article deletion route
+//delete all (for user experience purpose)
 router.delete('/clear', articleController.clearData);
-module.exports = router;  
+module.exports = router;
