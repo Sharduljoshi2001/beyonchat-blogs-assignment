@@ -5,7 +5,7 @@ const axios = require("axios");
 const googleService = require("../src/services/googleService");
 const scraperService = require("../src/services/scraperService");
 const llmService = require("../src/services/llmService");
-const API_BASE_URL = "http://localhost:3001/api/articles";
+const API_BASE_URL = 'https://olympic-shane-sharduls-org-2001-3f0c7b1c.koyeb.app/api/articles';
 const startPhase2Process = async () => {
   console.log("--- STARTING PHASE 2 AUTOMATION SCRIPT ---");
   try {
