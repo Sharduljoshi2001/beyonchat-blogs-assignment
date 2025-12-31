@@ -4,7 +4,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const rewriteArticleWithAI = async (originalTitle, referenceContent) => {
   try {
     //trying the latest gemini model
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = `
             You are a professional tech writer.
             Rewrite this article title: "${originalTitle}"
