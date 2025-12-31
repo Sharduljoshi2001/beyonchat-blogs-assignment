@@ -2,10 +2,10 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 // accessing the api key
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const rewriteArticleWithAI = async (originalTitle, referenceContent) => {
-    try {
-        //trying the latest gemini model
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const prompt = `
+  try {
+    //trying the latest gemini model
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const prompt = `
             You are a professional tech writer.
             Rewrite this article title: "${originalTitle}"
             Based on these notes: "${referenceContent.slice(0, 2000)}"
@@ -16,15 +16,18 @@ const rewriteArticleWithAI = async (originalTitle, referenceContent) => {
             3. Add a "References" section at the bottom.
             4. Do not include markdown backticks.
         `;
-        console.log(`sending request to gemini for: ${originalTitle}`);
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
-        return text;
-    } catch (error) {
-        console.log("Real AI request failed, switching to Simulation Mode:", error.message);      
-        // --- FALLBACK / SIMULATION MODE ---       
-        return `
+    console.log(`sending request to gemini for: ${originalTitle}`);
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+    return text;
+  } catch (error) {
+    console.log(
+      "Real AI request failed, switching to Simulation Mode:",
+      error.message
+    );
+    // --- FALLBACK / SIMULATION MODE ---
+    return `
             <h2>${originalTitle} (Updated Insight)</h2>
             <p><strong>Note:</strong> This content was synthesized using automated scraping analysis.</p>
             
@@ -43,6 +46,6 @@ const rewriteArticleWithAI = async (originalTitle, referenceContent) => {
                 <li>Scraped Data Source 2 (External Analysis)</li>
             </ul>
         `;
-    }
+  }
 };
 module.exports = { rewriteArticleWithAI };
