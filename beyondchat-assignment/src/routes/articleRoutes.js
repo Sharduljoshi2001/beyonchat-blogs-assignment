@@ -11,4 +11,5 @@ router.post('/', articleController.createArticle);
 router.put('/:id', articleController.updateArticle);
 //delete all (for user experience purpose)
 router.delete('/clear', articleController.clearData);
+router.post('/generate-ai', articleController.generateAiForPending);
 module.exports = router;
