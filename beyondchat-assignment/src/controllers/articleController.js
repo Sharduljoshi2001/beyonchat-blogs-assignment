@@ -1,38 +1,42 @@
-const articleService = require('../services/articleService');
-//api endpoint to start scraping
+const articleService = require("../services/articleService");
+//scraping aticles controller
 const scrapeArticles = async (req, res) => {
-    try {
-        //passing control to service layer
-        const result = await articleService.triggerScrapingProcess();
-        res.status(200).json(result);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'internal server error during scraping' });
-    }
+  try {
+    const result = await articleService.triggerScrapingProcess();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: "scraping failed" });
+  }
 };
-//api endpoint to get list
+//getting articles controller
 const getArticles = async (req, res) => {
-    try {
-        const data = await articleService.fetchAllArticles();
-        res.status(200).json(data);
-    } catch (error) {
-        res.status(500).json({ error: 'failed to retrieve articles' });
-    }
+  try {
+    const data = await articleService.fetchAllArticles();
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ error: "fetch failed" });
+  }
 };
-//api end point for updated data using llm
-const rewriteArticles = async (req, res) => {
-    try {
-        //this process might take time, so we are loging it
-        console.log('received request to rewrite articles...');
-        const result = await articleService.processArticlesWithAI();
-        res.status(200).json(result);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'failed to process articles with ai' });
-    }
+//updation controller
+const updateArticle = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { description } = req.body; //script will send this
+
+    const updated = await articleService.updateArticleById(id, { description });
+    res.status(200).json(updated);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "update failed" });
+  }
 };
-module.exports = { 
-    scrapeArticles, 
-    getArticles,
-    rewriteArticles 
+//clearing article data controller
+const clearData = async (req, res) => {
+  try {
+    await articleService.deleteAllArticles();
+    res.status(200).json({ message: "all data cleared" });
+  } catch (error) {
+    res.status(500).json({ error: "failed to clear data" });
+  }
 };
+module.exports = { scrapeArticles, getArticles, updateArticle, clearData };

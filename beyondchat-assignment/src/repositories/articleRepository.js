@@ -8,7 +8,7 @@ const createManyArticles = async (articleData) => {
     throw error;
   }
 };
-// function to get all articles sorted by latest
+//function to get all articles sorted by latest
 const getAllArticles = async () => {
   try {
     return await Article.find().sort({ createdAt: -1 });
@@ -20,7 +20,7 @@ const getAllArticles = async () => {
 const findArticleByLink = async (link) => {
   return await Article.findOne({ link });
 };
-// function to update an article by its id
+//function to update an article by its id
 const updateArticleContent = async (id, newContent) => {
   try {
     //finding by id and updating the description field
@@ -38,9 +38,14 @@ const updateArticleContent = async (id, newContent) => {
     throw error;
   }
 };
+//function to delete articles
+const deleteAll = async () => {
+    return await Article.deleteMany({});
+};
 module.exports = {
   createManyArticles,
   getAllArticles,
   findArticleByLink,
   updateArticleContent,
+  deleteAll
 };
